@@ -642,7 +642,7 @@ proc fixAbstractType(c: PContext, n: PNode) =
     let it = n[i]
     # do not get rid of nkHiddenSubConv for OpenArrays, the codegen needs it:
     if it.kind == nkHiddenSubConv and
-        skipTypes(it.typ, abstractVar).kind notin {tyOpenArray, tyVarargs}:
+        skipTypes(it.typ, abstractVar+{tyUserTypeClass, tyUserTypeClassInst}).kind notin {tyOpenArray, tyVarargs}:
       if skipTypes(it[1].typ, abstractVar).kind in
             {tyNil, tyTuple, tySet} or it[1].isArrayConstr:
         var s = skipTypes(it.typ, abstractVar)
